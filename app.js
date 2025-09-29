@@ -29,8 +29,29 @@ app.use('/messages', messagesRouter);
 const moviesRouter = require('./movies/movie-routes');
 app.use('/movies', moviesRouter);
 
-app.use('/health', (req, res) => {
-    res.status(200).json({ status: 'ok' });
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+    res.status(200).json({ 
+        message: 'API is running',
+        endpoints: {
+            health: '/health',
+            docs: '/api-docs',
+            auth: '/auth/*',
+            articles: '/articles/*',
+            messages: '/messages/*',
+            movies: '/movies/*'
+        }
+    });
 });
 
 // Démarrer le serveur avec le port 3000
