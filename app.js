@@ -29,6 +29,10 @@ app.use('/messages', messagesRouter);
 const moviesRouter = require('./movies/movie-routes');
 app.use('/movies', moviesRouter);
 
+app.use('/health', (req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
+
 // Démarrer le serveur avec le port 3000
 app.listen(3000, () => {
     console.log("Le serveur a démarré");
